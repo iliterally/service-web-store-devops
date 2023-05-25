@@ -1,0 +1,28 @@
+name: Docker Build and test
+
+# trigger, on pull, clone, push
+on:
+  push:
+    branch:
+      - test
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout our repository
+        uses: actions/checkout@v2
+
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Build the Docker Image
+        run: docker build -t iliterally/service-web-store-devops:forthelab/service-web-store-devops .
+
+      - name: Login in to the old Docker hub
+        run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Push the docker to that silly little dockerhub
+        run: docker push iliterally/service-web-store-devops:forthelab/service-web-store-devops
