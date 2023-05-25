@@ -15,13 +15,15 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: "12.x"
+          node-version: "14"
 
       - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag iliterally/service-web-store-devops:55664489/service-web-store-devops
+        run: docker build -t iliterally/service-web-store-devops:55664489/service-web-store-devops
 
       - name: Log in to Docker Hub
         run: docker login -u ${{ secrets.NABAZ_USERNAME }} -p ${{ secrets.NABAZ_TOKEN }}
 
       - name: Push the Docker image to Docker Hub
         run: docker push iliterally/service-web-store-devops:55664489/service-web-store-devops
+
+
