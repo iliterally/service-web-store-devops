@@ -1,0 +1,27 @@
+name: Docker Build and Testing
+
+on:
+  push:
+    branches:
+      - testing-pipeline
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout our repository
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "12.x"
+
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile --tag 55664489/service-web-store-devops:latest
+
+      - name: Log in to Docker Hub
+        run: docker login -u ${{ secrets.NABAZ_USERNAME }} -p ${{ secrets.NABAZ_TOKEN }}
+
+      - name: Push the Docker image to Docker Hub
+        run: docker push 55664489/service-web-store-devops:latest
