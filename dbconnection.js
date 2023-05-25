@@ -9,4 +9,4 @@ const client = new Client({
     password: "admin"
 })
 
-module.exports = client
+module.exports = clientt
